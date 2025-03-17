@@ -93,3 +93,20 @@ func (data RequestData) ExtractOptionalNumberByTags(entries ...string) sql.NullI
 
 	return sql.NullInt64{}
 }
+
+func (data RequestData) ExtractOptionalFloatByTag(entry string) sql.NullFloat64 {
+	if value, exists := data.Content[entry]; exists {
+		floatValue, errConv := strconv.ParseFloat(
+			strings.TrimSpace(value),
+			64,
+		)
+		if errConv == nil {
+			return sql.NullFloat64{
+				Valid:   true,
+				Float64: floatValue,
+			}
+		}
+	}
+
+	return sql.NullFloat64{}
+}
