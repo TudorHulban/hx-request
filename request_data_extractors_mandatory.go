@@ -49,6 +49,17 @@ func (data RequestData) ExtractMandatoryNumber(entry string) int64 {
 	return 0
 }
 
+func (data RequestData) ExtractMandatoryValueFromParentheses(entry string) string {
+	if value, exists := data.Content[entry]; exists {
+		stringValue, errConv := getValueFromParentheses(value)
+		if errConv == nil {
+			return stringValue
+		}
+	}
+
+	return ""
+}
+
 func (data RequestData) ExtractMandatoryNumberFromParentheses(entry string) int64 {
 	if value, exists := data.Content[entry]; exists {
 		numericValue, errConv := getNumberFromParentheses(value)

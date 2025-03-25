@@ -8,6 +8,25 @@ import (
 	goerrors "github.com/TudorHulban/go-errors"
 )
 
+func getValueFromParentheses(text string) (string, error) {
+	_, after, existsLeftP := strings.Cut(text, "(")
+	if existsLeftP {
+		before, _, existsRightP := strings.Cut(after, ")")
+		if existsRightP {
+			return before,
+				nil
+		}
+	}
+
+	return "",
+		goerrors.ErrInvalidInput{
+			Caller:     "getValueFromParentheses",
+			InputName:  "value",
+			InputValue: text,
+			Issue:      errors.New("invalid input"),
+		}
+}
+
 func getNumberFromParentheses(text string) (int64, error) {
 	_, after, existsLeftP := strings.Cut(text, "(")
 	if existsLeftP {
@@ -19,7 +38,7 @@ func getNumberFromParentheses(text string) (int64, error) {
 
 	return 0,
 		goerrors.ErrInvalidInput{
-			Caller:     "GetNumberFromParentheses",
+			Caller:     "getNumberFromParentheses",
 			InputName:  "number",
 			InputValue: text,
 			Issue:      errors.New("invalid input"),
